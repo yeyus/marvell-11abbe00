@@ -52,3 +52,8 @@ class Value(RequestNode):
 
     def append(self, element):
         raise NotImplementedError
+
+
+class CurrentLocalTime(RequestNode):
+    def __init__(self, children=[]):
+        super().__init__(tag="CurrentLocalTime", children=children)

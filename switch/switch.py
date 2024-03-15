@@ -1,11 +1,28 @@
+from datetime import datetime
 import urllib3
 import requests
 
-from switch.endpoints import StatusCode, get_login_endpoint, get_wcd_endpoint
-from switch.builder import DeviceConfiguration, ServiceFactory, Version, Entry, Value
+from switch.endpoints import (
+    StatusCode,
+    get_http_download_endpoint,
+    get_login_endpoint,
+    get_wcd_endpoint,
+    get_wcd_raw_endpoint,
+)
+from switch.builder import (
+    CurrentLocalTime,
+    DeviceConfiguration,
+    ServiceFactory,
+    Version,
+    Entry,
+    Value,
+)
 import xml.etree.ElementTree as ET
 
 urllib3.disable_warnings()
+urllib3.util.url._QUERY_CHARS.add("{")
+urllib3.util.url._QUERY_CHARS.add("}")
+
 
 def handle_response_code(request):
     xmltree = ET.fromstring(request.text)
@@ -17,7 +34,7 @@ def handle_response_code(request):
     return True
 
 
-class SwitchConfigurationManager():
+class SwitchConfigurationManager:
     def is_authenticated(func):
         def inner(*args, **kwargs):
             if args[0].token is None:
@@ -60,7 +77,65 @@ class SwitchConfigurationManager():
         ).build()
 
         xml = ET.tostring(payload, encoding="utf8")
-        r = requests.post(get_wcd_endpoint(self.host, []), data=xml, verify=False, headers={ "sessionID": self.token })
+        r = requests.post(
+            get_wcd_endpoint(self.host, []),
+            data=xml,
+            verify=False,
+            headers={"sessionID": self.token},
+        )
 
         if not handle_response_code(r):
             raise Exception("error while setting idle timeout")
+
+    @is_authenticated
+    def set_time(self, date=datetime.today()):
+        payload = (
+            DeviceConfiguration().append(
+                ServiceFactory(serviceName="TimeSetting", action="set")
+                .append(Value(key="setTimeMode", value=str(1)))
+                .append(
+                    CurrentLocalTime()
+                    .append(Value(key="year", value=str(date.year)))
+                    .append(Value(key="month", value=str(date.month)))
+                    .append(Value(key="day", value=str(date.day)))
+                    .append(Value(key="hour", value=str(date.hour)))
+                    .append(Value(key="minute", value=str(date.minute)))
+                    .append(Value(key="second", value=str(date.second)))
+                )
+            )
+        ).build()
+
+        xml = ET.tostring(payload, encoding="utf8")
+        r = requests.post(
+            get_wcd_endpoint(self.host, []),
+            data=xml,
+            verify=False,
+            headers={"sessionID": self.token},
+        )
+
+        if not handle_response_code(r):
+            raise Exception("error while setting time")
+
+    @is_authenticated
+    def get_time(self):
+        endpoint = get_wcd_endpoint(self.host, ["TimeSetting"])
+        http = urllib3.PoolManager(cert_reqs="CERT_NONE")
+        r = http.request(
+            "GET",
+            endpoint,
+            headers={"sessionID": self.token},
+        )
+
+        print(f"Response: {r.data}")
+
+    @is_authenticated
+    def download_config(self):
+        endpoint = get_http_download_endpoint(self.host)
+        http = urllib3.PoolManager(cert_reqs="CERT_NONE")
+        r = http.request(
+            "GET",
+            endpoint,
+            headers={"sessionID": self.token},
+        )
+
+        print(f"Response: {r.data}")

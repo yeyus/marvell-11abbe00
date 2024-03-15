@@ -10,3 +10,10 @@ if __name__ == "__main__":
 
     # infinite login timeout
     switch.set_max_idle_timeout(0)
+
+    # set time
+    switch.set_time()
+
+    # get time
+    switch.get_time()
+    switch.download_config()

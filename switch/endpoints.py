@@ -18,10 +18,20 @@ def get_keep_alive_endpoint(host):
 
 
 def get_wcd_endpoint(host, queries=[]):
-    return f"{get_host(host)}wcd?{''.join([query for query in queries])}"
+    queryString = "".join(["{" + query + "}" for query in queries])
+    return f"{get_host(host)}wcd?{queryString}"
+
+
+def get_wcd_raw_endpoint(host):
+    return f"{get_host(host)}wcd?"
+
+
+def get_http_download_endpoint(host, action="1"):
+    return f"{get_host(host)}http_download?action={action}"
 
 
 class StatusCode(Enum):
+    NOT_FOUND = "-1"
     OK = "0"
     ENTRY_EXISTS = "3"
     AUTHENTICATION_ERROR = "4"
