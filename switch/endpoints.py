@@ -18,7 +18,7 @@ def get_keep_alive_endpoint(host):
 
 
 def get_wcd_endpoint(host, queries=[]):
-    return f"{get_host(host)}wcd?{[query for query in queries]}"
+    return f"{get_host(host)}wcd?{''.join([query for query in queries])}"
 
 
 class StatusCode(Enum):

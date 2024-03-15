@@ -1,12 +1,14 @@
+import urllib3
 import requests
+
 from switch.endpoints import StatusCode, get_login_endpoint, get_wcd_endpoint
 from switch.builder import DeviceConfiguration, ServiceFactory, Version, Entry, Value
 import xml.etree.ElementTree as ET
 
+urllib3.disable_warnings()
 
 def handle_response_code(request):
     xmltree = ET.fromstring(request.text)
-    print(ET.dump(xmltree))
     statusCode = next(xmltree.iter("statusCode"), None)
     statusString = next(xmltree.iter("statusString"), None)
     if statusCode is not None and statusCode.text != StatusCode.OK.value:
@@ -14,11 +16,16 @@ def handle_response_code(request):
 
     return True
 
-def is_authenticated(cls):
-    def wrapper():
 
+class SwitchConfigurationManager():
+    def is_authenticated(func):
+        def inner(*args, **kwargs):
+            if args[0].token is None:
+                raise Exception("Method should be called in an authenticated context")
+            func(*args, **kwargs)
 
-class SwitchConfigurationManager:
+        return inner
+
     def __init__(self, host):
         self.host = host
         self.token = None
@@ -40,6 +47,7 @@ class SwitchConfigurationManager:
         self.token = r.headers["sessionID"]
         return self.token
 
+    @is_authenticated
     def set_max_idle_timeout(self, timeout=0):
         payload = (
             DeviceConfiguration()
@@ -51,8 +59,8 @@ class SwitchConfigurationManager:
             )
         ).build()
 
-        xml = ET.dump(payload)
-        r = requests.post(get_wcd_endpoint(self.host, []), data=xml, verify=False)
+        xml = ET.tostring(payload, encoding="utf8")
+        r = requests.post(get_wcd_endpoint(self.host, []), data=xml, verify=False, headers={ "sessionID": self.token })
 
         if not handle_response_code(r):
             raise Exception("error while setting idle timeout")

@@ -8,5 +8,5 @@ if __name__ == "__main__":
     sessionid = switch.login("cisco", "cisco")
     print(f"Your sessionID is {sessionid}")
 
-    # infinite login time
+    # infinite login timeout
     switch.set_max_idle_timeout(0)
