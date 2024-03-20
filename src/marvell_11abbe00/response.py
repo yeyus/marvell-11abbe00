@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Optional
 import xml.etree.ElementTree as ET
 
 
@@ -9,7 +10,7 @@ class StatusCode(Enum):
     AUTHENTICATION_ERROR = "4"
 
 
-def get_node_text(xmlnode: ET.Element, tag: str, default=None) -> str | None:
+def get_node_text(xmlnode: ET.Element, tag: str, default=None) -> Optional[str]:
     node = next(xmlnode.iter(tag), None)
     return node.text if node is not None else default
 
