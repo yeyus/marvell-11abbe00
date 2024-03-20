@@ -26,11 +26,11 @@ def request_process_filter(request: "Request") -> bool:
         return False
 
     # do not send password overwrite requests
-    if "wdc" in request.url and "AdminUserEntry" in request.text:
+    if "wcd" in request.url and "AdminUserEntry" in request.text:
         return False
 
     # we will also set our own time
-    if "wdc" in request.url and 'TimeSetting action="set"' in request.text:
+    if "wcd" in request.url and 'TimeSetting action="set"' in request.text:
         return False
 
     return True
@@ -103,6 +103,7 @@ def main():
 
     switch = SwitchConfigurationManager(args.host)
     sessionId = switch.login(args.username, args.password)
+    switch.set_time()
 
     logger.info(f"loaded {args.harFile} with {len(har_page.entries)} entries")
 
