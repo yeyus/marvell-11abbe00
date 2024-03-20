@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "marvell_11abbe00"
-version = "0.0.1"
+version = "0.0.2"
 authors = [
   { name="yeyus", email="elyeyus@gmail.com" },
 ]
@@ -16,6 +16,9 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+
+[project.scripts]
+marvell_11abbe00_replay = "marvell_11abbe00.replay:main"
 
 [project.urls]
 Homepage = "https://github.com/yeyus/marvell-11abbe00"
