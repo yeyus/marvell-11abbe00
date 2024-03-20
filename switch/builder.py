@@ -2,11 +2,11 @@ import xml.etree.ElementTree as ET
 
 
 class RequestNode:
-    def __init__(self, *, tag, children=[], attrib={}, text=None):
+    def __init__(self, *, tag, children=None, attrib=None, text=None):
         self.tag = tag
         self.text = text
-        self.attrib = attrib
-        self.children = children
+        self.attrib = {} if attrib is None else attrib
+        self.children = [] if children is None else children
 
     def append(self, element):
         self.children.append(element)
@@ -24,7 +24,7 @@ class RequestNode:
 
 
 class DeviceConfiguration(RequestNode):
-    def __init__(self, children=[]):
+    def __init__(self, children=None):
         super().__init__(tag="DeviceConfiguration", children=children)
 
 
@@ -37,13 +37,28 @@ class Version(RequestNode):
 
 
 class ServiceFactory(RequestNode):
-    def __init__(self, *, serviceName, action, children=[]):
+    def __init__(self, *, serviceName, action, children=None):
         super().__init__(tag=serviceName, children=children, attrib={"action": action})
 
 
 class Entry(RequestNode):
-    def __init__(self, children=[]):
+    def __init__(self, children=None):
         super().__init__(tag="Entry", children=children)
+
+
+class InterfaceEntry(RequestNode):
+    def __init__(self, children=None):
+        super().__init__(tag="InterfaceEntry", children=children)
+
+
+class GlobalSetting(RequestNode):
+    def __init__(self, children=None):
+        super().__init__(tag="GlobalSetting", children=children)
+
+
+class BridgeSetting(RequestNode):
+    def __init__(self, children=None):
+        super().__init__(tag="BridgeSetting", children=children)
 
 
 class Value(RequestNode):
@@ -52,3 +67,13 @@ class Value(RequestNode):
 
     def append(self, element):
         raise NotImplementedError
+
+
+class CurrentLocalTime(RequestNode):
+    def __init__(self, children=None):
+        super().__init__(tag="CurrentLocalTime", children=children)
+
+
+class VLAN(RequestNode):
+    def __init__(self, children=None):
+        super().__init__(tag="VLAN", children=children)
