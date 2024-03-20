@@ -3,7 +3,7 @@ import urllib3
 import requests
 import logging
 
-from switch.endpoints import (
+from marvell_11abbe00.endpoints import (
     Sections,
     SystemActions,
     get_login_endpoint,
@@ -11,7 +11,7 @@ from switch.endpoints import (
     get_system_action_endpoint,
     get_wcd_endpoint,
 )
-from switch.builder import (
+from marvell_11abbe00.builder import (
     VLAN,
     BridgeSetting,
     CurrentLocalTime,
@@ -25,7 +25,7 @@ from switch.builder import (
 )
 import xml.etree.ElementTree as ET
 
-from switch.response import ActionStatus, StatusCode
+from marvell_11abbe00.response import ActionStatus, StatusCode
 
 logger = logging.getLogger(__name__)
 

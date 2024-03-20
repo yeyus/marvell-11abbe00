@@ -1,4 +1,4 @@
-# Marvel Switch 11AB:BE00
+A library for manipulating configuration in cisco/marvell switches integrated into ENCS54xx platform.
 
 # Running a known replay to set up the switch to default parameters
 ```
