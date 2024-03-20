@@ -30,7 +30,10 @@ class ActionStatus:
         self.statusString = statusString
 
     def __str__(self):
-        return f"<ActionStatus/{self.version} requestURL={self.requestURL} statusCode={self.statusCode} statusString={self.statusString}>"
+        return (
+            f"<ActionStatus/{self.version} requestURL={self.requestURL} "
+            f"statusCode={self.statusCode} statusString={self.statusString}>"
+        )
 
     @classmethod
     def from_xml_response(cls, xmltree: ET.Element) -> "ActionStatus":

@@ -37,13 +37,6 @@ def get_section_query(section, query):
     return f"{section}&{querystring}"
 
 
-class StatusCode(Enum):
-    NOT_FOUND = "-1"
-    OK = "0"
-    PAYLOAD_ERROR = "3"
-    AUTHENTICATION_ERROR = "4"
-
-
 class SystemActions(Enum):
     DOWNLOAD_CONFIGURATION_FILE = "downloadConfigurationFile"
     UPLOAD_CONFIGURATION_FILE = "uploadConfigurationFile"
@@ -91,7 +84,9 @@ class LLDPInterfaceListPortState(Enum):
 class POEPSEInterfaceAdminEnable(Enum):
     """
     @param adminEnable
-    True (1)- Turns on the device discovery protocol and applies power to the device (auto). False(2)- Turns off the device discovery protocol and stops supplying power to the device (never). CLI: power inline {auto | never}
+    True (1)- Turns on the device discovery protocol and applies power to the device (auto).
+    False(2)- Turns off the device discovery protocol and stops supplying power to the device (never).
+    CLI: power inline {auto | never}
     """
 
     ENABLED = "1"
@@ -106,7 +101,10 @@ class STPOperationMode(Enum):
 
 class LockInterfaceAdminEnabled(Enum):
     """
-    This variable indicates whether this interface should operate in locked or unlocked mode. In unlocked mode the device learns all MAC addresses from this port and forwards all frames arrived at this port. In locked mode no new MAC addresses are learned and only frames with known source MAC addresses are forwarded. locked(1) (disabled) unlocked(2) (enabled)
+    This variable indicates whether this interface should operate in locked or unlocked mode.
+    In unlocked mode the device learns all MAC addresses from this port and forwards all frames arrived at this port.
+    In locked mode no new MAC addresses are learned and only frames with known source MAC addresses are forwarded.
+    locked(1) (disabled) unlocked(2) (enabled)
     """
 
     LOCKED = "1"
@@ -117,10 +115,16 @@ class LearningMode(Enum):
     """
     This variable indicates what is the learning limitation on the locked interface.
     Possible values:
-      disabled(1) (locked) - learning is stopped. The dynamic addresses associated with the port are not aged out or relearned on other port as long as the port is locked.
-      dynamic(2) (max-addresses) - dynamic addresses can be learned up to the maximum dynamic addresses allowed on the port. Relearning and aging of the dynamic addresses are enabled. The learned addresses aren't kept after reset.
-      secure-permanent(3) - secure addresses can be learned up to the maximum addresses allowed on the port. Relearning and aging of addresses are disabled. The learned addresses are kept after reset.
-      secure-delete-on-reset(4) - secure addresses can be learned up to the maximum addresses allowed on the port. Relearning and aging of addresses are disabled. The learned addresses are not kept after reset.
+      disabled(1) (locked) - learning is stopped. The dynamic addresses associated with the port are
+                             not aged out or relearned on other port as long as the port is locked.
+      dynamic(2) (max-addresses) - dynamic addresses can be learned up to the maximum dynamic addresses allowed
+                             on the port. Relearning and aging of the dynamic addresses are enabled.
+                             The learned addresses aren't kept after reset.
+      secure-permanent(3) - secure addresses can be learned up to the maximum addresses allowed on the port.
+                            Relearning and aging of addresses are disabled. The learned addresses are kept after reset.
+      secure-delete-on-reset(4) - secure addresses can be learned up to the maximum addresses allowed on the port.
+                            Relearning and aging of addresses are disabled. The learned addresses are not kept after
+                            reset.
     """
 
     DISABLED = "1"
@@ -131,7 +135,9 @@ class LearningMode(Enum):
 
 class MACAuthenticationMethod(Enum):
     """
-    "The value of the mac based authenication." CLI commands (ethernet ports): dot1x mac-authentication {mac-only | mac-and-802.1x} no dot1x mac-authentication"The value of the authentication method." CLI commands (ethernet ports): dot1x authentication no dot1x authentication "The value of the authentication method." CLI commands (ethernet ports): dot1x authentication {dot1x | mac | web} no dot1x authentication
+    CLI commands (ethernet ports): dot1x mac-authentication {mac-only | mac-and-802.1x} no dot1x mac-authentication
+    CLI commands (ethernet ports): dot1x authentication no dot1x authentication
+    CLI commands (ethernet ports): dot1x authentication {dot1x | mac | web} no dot1x authentication
     """
 
     EAPOL_ONLY = "1"
@@ -145,7 +151,11 @@ class MACAuthenticationMethod(Enum):
 
 class PowerPriority(Enum):
     """
-    This object controls the priority of the port from the point of view of a power management algorithm. The priority that is set by this variable could be used by a control mechanism that prevents over current situations by disconnecting first ports with lower power priority. Ports that connect devices critical to the operation of the network - like the E911 telephones ports - should be set to higher priority. CLI: power inline priority
+    This object controls the priority of the port from the point of view of a power management algorithm.
+    The priority that is set by this variable could be used by a control mechanism that prevents over current situations
+    by disconnecting first ports with lower power priority. Ports that connect devices critical to the
+    operation of the network - like the E911 telephones ports - should be set to higher priority.
+    CLI: power inline priority
     """
 
     CRITICAL = "1"
@@ -155,7 +165,9 @@ class PowerPriority(Enum):
 
 class HostMode(Enum):
     """
-    This variable indicates the 802.1X host mode of a port. Relevant when the port's 802.1X control is auto. In addtion multiple-auth was added. CLI commands (ethernet ports): dot1x multiple-hosts [authentication] no dot1x multiple-hosts
+    This variable indicates the 802.1X host mode of a port. Relevant when the port's 802.1X control is auto.
+    In addtion multiple-auth was added.
+    CLI commands (ethernet ports): dot1x multiple-hosts [authentication] no dot1x multiple-hosts
     """
 
     SINGLE = "1"
@@ -175,7 +187,13 @@ class AdminPortControlType(Enum):
 
 class ActionOnViolationType(Enum):
     """
-    This variable indicates which action this interface should be taken in locked mode and therefore relevant only in locked mode. Possible actions: discard(1) - every packet is dropped. forwardNormal(2) - every packet is forwarded according to the DST address. discardDisable(3) - drops the first packet and suspends the port. ** Default value is product specific.
+    This variable indicates which action this interface should be taken in locked mode and
+    therefore relevant only in locked mode.
+    Possible actions:
+        discard(1) - every packet is dropped.
+        forwardNormal(2) - every packet is forwarded according to the DST address.
+        discardDisable(3) - drops the first packet and suspends the port.
+    ** Default value is product specific.
     """
 
     DISCARD = "1"
