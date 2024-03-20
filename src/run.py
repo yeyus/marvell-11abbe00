@@ -1,5 +1,5 @@
 import logging
-from switch.endpoints import (
+from marvell_11abbe00.endpoints import (
     ActionOnViolationType,
     AdminPortControlType,
     HostMode,
@@ -14,7 +14,7 @@ from switch.endpoints import (
     SwitchPortModeAdmin,
     get_section_query,
 )
-from switch.switch import SwitchConfigurationManager
+from marvell_11abbe00.switch import SwitchConfigurationManager
 
 logging.basicConfig(encoding="utf-8", level=logging.DEBUG)
 

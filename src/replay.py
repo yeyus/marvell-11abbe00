@@ -9,8 +9,8 @@ import xml.etree.ElementTree as ET
 from haralyzer import HarPage
 from haralyzer.http import Request
 
-from switch.response import StatusCode, WCDResponse
-from switch.switch import SwitchConfigurationManager
+from marvell_11abbe00.response import StatusCode, WCDResponse
+from marvell_11abbe00.switch import SwitchConfigurationManager
 
 logging.basicConfig(encoding="utf-8", level=logging.INFO)
 logger = logging.getLogger(__name__)
