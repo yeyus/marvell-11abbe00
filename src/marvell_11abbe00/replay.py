@@ -63,7 +63,41 @@ def request_process(request: "Request", host, sessionId) -> WCDResponse:
     return response
 
 
-def main(args):
+def main():
+    parser = argparse.ArgumentParser(description="Replay a HAR file to the switch")
+    parser.add_argument(
+        "--host",
+        required=True,
+        dest="host",
+        type=str,
+        help="host switch api",
+    )
+    parser.add_argument(
+        "--har",
+        required=True,
+        dest="harFile",
+        type=str,
+        help="path to the HAR file to replay",
+    )
+    parser.add_argument(
+        "--username",
+        required=False,
+        default="cisco",
+        dest="username",
+        type=str,
+        help="switch api username",
+    )
+    parser.add_argument(
+        "--password",
+        required=False,
+        default="cisco",
+        dest="password",
+        type=str,
+        help="switch api password",
+    )
+
+    args = parser.parse_args()
+
     with open(args.harFile, "r") as f:
         har_page = HarPage("unknown", har_data=json.loads(f.read()))
 
@@ -112,37 +146,4 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Replay a HAR file to the switch")
-    parser.add_argument(
-        "--host",
-        required=True,
-        dest="host",
-        type=str,
-        help="host switch api",
-    )
-    parser.add_argument(
-        "--har",
-        required=True,
-        dest="harFile",
-        type=str,
-        help="path to the HAR file to replay",
-    )
-    parser.add_argument(
-        "--username",
-        required=False,
-        default="cisco",
-        dest="username",
-        type=str,
-        help="switch api username",
-    )
-    parser.add_argument(
-        "--password",
-        required=False,
-        default="cisco",
-        dest="password",
-        type=str,
-        help="switch api password",
-    )
-
-    args = parser.parse_args()
-    main(args)
+    main()
