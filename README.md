@@ -2,7 +2,7 @@ A library for manipulating configuration in cisco/marvell switches integrated in
 
 # Running a known replay to set up the switch to default parameters
 ```
-python replay.py --host="169.254.1.0" --har switch-capture.har
+marvell_11abbe_replay --host="169.254.1.0" --har switch-capture.har
 ```
 
 # Running a custom set of configs
