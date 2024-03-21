@@ -28,7 +28,7 @@ def request_process_filter(request: "Request") -> bool:
     # do not send password overwrite requests
     if (
         "wcd" in request.url
-        and request is not None
+        and request.text is not None
         and "AdminUserEntry" in request.text
     ):
         return False
@@ -36,7 +36,7 @@ def request_process_filter(request: "Request") -> bool:
     # we will also set our own time
     if (
         "wcd" in request.url
-        and request is not None
+        and request.text is not None
         and 'TimeSetting action="set"' in request.text
     ):
         return False
