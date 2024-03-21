@@ -143,7 +143,7 @@ def main():
                     continue
                 elif actionStatus.statusCode == StatusCode.PAYLOAD_ERROR:
                     logger.error("payload error.")
-                    ET.dump(response.text)
+                    logger.error(response.text)
                     break
                 logger.info(
                     f"[{index} / {len(har_page.entries)}] result - {str(actionStatus)}"
